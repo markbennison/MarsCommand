@@ -33,8 +33,8 @@ public class DisplayWebCam : MonoBehaviour
         // assuming the first available WebCam is desired
 
         //WebCamTexture tex = new WebCamTexture(devices[0].name);
-        WebCamTexture tex = new WebCamTexture(devices[kandaoMeetingIndex].name);
-        //WebCamTexture tex = new WebCamTexture(devices[OBSVirtualCameraIndex].name);
+        //WebCamTexture tex = new WebCamTexture(devices[kandaoMeetingIndex].name);
+        WebCamTexture tex = new WebCamTexture(devices[OBSVirtualCameraIndex].name);
 
         //rend.material.mainTexture = tex;
         rawImage0.texture = tex;

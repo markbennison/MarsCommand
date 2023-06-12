@@ -23,14 +23,14 @@ public class ThreeSixtyFollower : MonoBehaviour
 
     void Follower()
 	{
-        if(imageSet0.transform.position.x > 0)
+        if(imageSet0.transform.localPosition.x > 0)
 		{
-            moveVector = new Vector3(imageSet0.transform.position.x - moveAmount, transform.position.y, transform.position.z);
+            moveVector = new Vector3(imageSet0.transform.localPosition.x - moveAmount, transform.localPosition.y, transform.localPosition.z);
         }
         else
 		{
-            moveVector = new Vector3(imageSet0.transform.position.x + moveAmount, transform.position.y, transform.position.z);
+			moveVector = new Vector3(imageSet0.transform.localPosition.x + moveAmount, transform.localPosition.y, transform.localPosition.z);
         }
-        transform.position = moveVector;
+		transform.localPosition = moveVector;
     }
 }

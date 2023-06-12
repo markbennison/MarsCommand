@@ -15,14 +15,14 @@ public class ThreeSixthMover : MonoBehaviour
 
     void Start()
     {
-        
-    }
+		
+	}
 
     void Update()
     {
-        PanCamera();
-        PanCameraByMouse();
-        outerBoundsReset();
+		PanCamera();
+		PanCameraByMouse();
+		outerBoundsReset();
     }
 
     void PanCamera()
@@ -36,16 +36,16 @@ public class ThreeSixthMover : MonoBehaviour
         if (Input.GetButton("Fire1"))
         {
             panAmount = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            transform.Translate(panAmount, 0, 0);
+			transform.Translate(panAmount, 0, 0);
         }
     }
 
     void outerBoundsReset()
 	{
-        if (transform.position.x <= -outerBounds || transform.position.x >= outerBounds)
+		if (transform.localPosition.x <= -outerBounds || transform.localPosition.x >= outerBounds)
         {
-            moveVector = new Vector3(0, transform.position.y, transform.position.z);
-            transform.position = moveVector;
+            moveVector = new Vector3(0, transform.localPosition.y, transform.localPosition.z);
+            transform.localPosition = moveVector;
         }
     }
 }
