@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Mars.unity
-    guid: badcc9ddac002ae44883ac0537c72d72
+    path: Assets/Scenes/Satellite.unity
+    guid: 9a059f91197b8344cb93665e7ed33eff
   m_configObjects: {}
