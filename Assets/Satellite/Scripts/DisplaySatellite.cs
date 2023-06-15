@@ -4,7 +4,7 @@ using UnityEngine;
 public class DisplaySatellite : MonoBehaviour
 {
     [SerializeField]
-	UnityEngine.UI.RawImage satelliteRawImage0, rawImage0, rawImage1, duplicateRawImage0, duplicateRawImage1;
+	UnityEngine.UI.RawImage satelliteRawImage0, satelliteRawImage1, rawImage0, rawImage1, duplicateRawImage0, duplicateRawImage1;
 
 	int kandaoMeetingIndex = 0;
 	int OBSVirtualCameraIndex = 0;
@@ -42,7 +42,8 @@ public class DisplaySatellite : MonoBehaviour
 		duplicateRawImage0.texture = tex;
 		duplicateRawImage1.texture = tex;
 		satelliteRawImage0.texture = tex;
+        satelliteRawImage1.texture = tex;
 
-		tex.Play();
+        tex.Play();
 	}
 }
