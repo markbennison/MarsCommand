@@ -12,8 +12,8 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
     {
-        Satellite0View.SetActive(true);
-        Satellite1View.SetActive(false);
+        //Satellite0View.SetActive(true);
+        //Satellite1View.SetActive(false);
     }
 
     private void Update()
