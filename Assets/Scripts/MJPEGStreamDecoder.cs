@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MJPEGStreamDecoder : MonoBehaviour
 {
-	[SerializeField] bool tryOnStart = false;
+	[SerializeField] bool tryOnStart = true;
 	[SerializeField] string defaultStreamURL = "http://192.168.8.134:5000/video_feed";
 	//try "http://192.168.0.0:5000/video_feed/?dummy=param.mjpg"
 	//CAM1: http://192.168.8.134:5000/video_feed
