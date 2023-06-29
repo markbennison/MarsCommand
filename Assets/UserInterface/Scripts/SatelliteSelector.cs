@@ -2,25 +2,16 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class SatelliteSelector : MonoBehaviour
 {
     [SerializeField]
-    TMPro.TextMeshProUGUI TimeTMP;
+    GameObject Satellite0View, Satellite1View;
 
-	[SerializeField]
-	GameObject Satellite0View, Satellite1View;
-
-	private void Start()
+    void Start()
     {
         //Satellite0View.SetActive(true);
         //Satellite1View.SetActive(false);
     }
-
-    private void Update()
-    {
-        TimeTMP.text = DateTime.Now.ToString("HH:mm:ss");
-
-	}
 
     public void SatelliteSelection(int index)
     {

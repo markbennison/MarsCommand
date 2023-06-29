@@ -8,8 +8,9 @@ using UnityEngine;
 public class MJPEGStreamDecoder : MonoBehaviour
 {
 	[SerializeField] bool tryOnStart = false;
-	[SerializeField] string defaultStreamURL = "http://127.0.0.1/stream";
+	[SerializeField] string defaultStreamURL = "http://192.168.8.134:5000/video_feed";
 	//try "http://192.168.0.0:5000/video_feed/?dummy=param.mjpg"
+	//CAM1: http://192.168.8.134:5000/video_feed
 
 	[SerializeField] RenderTexture renderTexture;
 
@@ -86,7 +87,7 @@ public class MJPEGStreamDecoder : MonoBehaviour
 		int newByte;
 		while (buffer != null)
 		{
-			if (threadID != id) return; // We are no longer the active thread! stop doing things damnit!
+			if (threadID != id) return; // We are no longer the active thread! stop doing things!
 			if (!buffer.CanRead)
 			{
 				Debug.LogError("Can't read buffer!");
