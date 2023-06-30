@@ -1,0 +1,34 @@
+{
+    "name": "RoverControl",
+    "maps": [
+        {
+            "name": "Rover",
+            "id": "1a982b67-978a-4d51-881a-4bf171f0cf41",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "09885107-71ae-4e63-90ee-345175bf9b1e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d0a41a80-8f44-48eb-b691-500a5014a899",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

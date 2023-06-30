@@ -1,22 +1,29 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class RoverController : MonoBehaviour
 {
+    PlayerInput userInput;
+
     void Start()
     {
-        // A correct website page.
-        //StartCoroutine(GetRequest("https://www.example.com"));
+		// A correct website page.
+		//StartCoroutine(GetRequest("https://www.example.com"));
 
-        // A non-existing page.
-        //StartCoroutine(GetRequest("https://error.html"));
-    }
+		// A non-existing page.
+		//StartCoroutine(GetRequest("https://error.html"));
+
+		userInput = GetComponent<PlayerInput>();
+
+	}
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(userInput.actions["Move"].ReadValue<Vector2>().ToString() + " ||| " + MotorPower(userInput.actions["Move"].ReadValue<Vector2>()));
     }
 
     public void ControlForward()
@@ -40,6 +47,53 @@ public class RoverController : MonoBehaviour
     public void ControlStop()
     {
         StartCoroutine(GetRequest("http://192.168.8.104:5001/stop"));
+    }
+
+    Vector2 MotorPower(Vector2 xy)
+    {
+        float xSq = xy.x * xy.x;
+        float ySq = xy.y * xy.y;
+        float magnitude = Mathf.Sqrt(xSq + ySq);
+		float angle = Mathf.Atan2(xy.y, xy.x);
+
+        angle -= Mathf.Deg2Rad*45;
+
+        float x = Mathf.Cos(angle) * magnitude;
+        float y = Mathf.Sin(angle) * magnitude;
+
+        x = Mathf.Round(x * 100) / 100;
+		y = Mathf.Round(y * 100) / 100;
+
+        //      if(xy.x >= 0 && xy.y >= 0)
+        //      {
+        //	//Top-right quadrant
+        //	x = Mathf.Sqrt(xSq + ySq);
+        //	y = (ySq - xSq) / x;
+        //}
+        //      else if (xy.x <= 0 && xy.y >= 0)
+        //{
+        //	//Top-left quadrant
+        //}
+        //else if (xy.x >= 0 && xy.y <= 0)
+        //{
+        //	//Bottom-right quadrant
+        //}
+        //else if (xy.x <= 0 && xy.y <= 0)
+        //{
+        //	//Bottom-left quadrant
+        //}
+
+        //x = xSq + ySq;
+        //      y = (ySq - xSq) / x;
+
+        if (xy.y >= 0)
+        {
+            return new Vector2(x, y);
+        }
+        else
+        {
+            return new Vector2(y, x);
+        }
     }
 
 
