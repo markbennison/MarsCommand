@@ -23,7 +23,7 @@ public class RoverController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(userInput.actions["Move"].ReadValue<Vector2>().ToString() + " ||| " + MotorPower(userInput.actions["Move"].ReadValue<Vector2>()));
+        //Debug.Log(userInput.actions["Move"].ReadValue<Vector2>().ToString() + " ||| " + MotorPower(userInput.actions["Move"].ReadValue<Vector2>()));
     }
 
     public void ControlForward()
