@@ -8,6 +8,8 @@ public class RoverController : MonoBehaviour
 {
     PlayerInput userInput;
 
+    Rover rover;
+
     void Start()
     {
 		// A correct website page.
@@ -28,28 +30,61 @@ public class RoverController : MonoBehaviour
 
     public void ControlForward()
 	{
-        StartCoroutine(GetRequest("http://192.168.8.104:5001/move/1/1"));
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/0.5/0.5"));
         //Application.OpenURL("192.168.8.104:5001/move/1/1");
     }
 
-    public void ControlBackward()
+	public void ControlForward_Full()
+	{
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/1/1"));
+		//Application.OpenURL("192.168.8.104:5001/move/1/1");
+	}
+
+	public void ControlBackward()
     {
-        StartCoroutine(GetRequest("http://192.168.8.104:5001/move/-1/-1"));
-    }
-    public void ControlRight()
-    {
-        StartCoroutine(GetRequest("http://192.168.8.104:5001/move/1/-1"));
-    }
-    public void ControlLeft()
-    {
-        StartCoroutine(GetRequest("http://192.168.8.104:5001/move/-1/1"));
-    }
-    public void ControlStop()
-    {
-        StartCoroutine(GetRequest("http://192.168.8.104:5001/stop"));
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/-0.5/-0.5"));
     }
 
-    Vector2 MotorPower(Vector2 xy)
+	public void ControlBackward_Full()
+	{
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/-1/-1"));
+	}
+
+	public void ControlRight()
+    {
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/0.5/-0.5"));
+    }
+
+	public void ControlRight_Full()
+	{
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/1/-1"));
+	}
+
+	public void ControlLeft()
+    {
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/-0.5/0.5"));
+    }
+	public void ControlLeft_Full()
+	{
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/move/-1/1"));
+	}
+
+	public void ControlStop()
+    {
+		rover = GameManager.Instance.rovers[0];
+		StartCoroutine(GetRequest(rover.GetURL() + "/stop"));
+    }
+
+
+	Vector2 MotorPower(Vector2 xy)
     {
         float xSq = xy.x * xy.x;
         float ySq = xy.y * xy.y;

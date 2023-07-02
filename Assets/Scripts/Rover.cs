@@ -48,7 +48,12 @@ public class Rover
         return ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4;
     }
 
-    public string GetVideoURL()
+	public string GetURL()
+	{
+		return "http://" + ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4 + ":" + port;
+	}
+
+	public string GetVideoURL()
     {
 		return "http://" + ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4 + ":" + port + videolink;
 	}
