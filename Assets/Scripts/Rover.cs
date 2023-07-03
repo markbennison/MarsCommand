@@ -45,17 +45,22 @@ public class Rover
 
     public string GetIP()
     {
-        return ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4;
+        return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
     }
 
 	public string GetURL()
 	{
-		return "http://" + ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4 + ":" + port;
+		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4;
 	}
 
-	public string GetVideoURL()
+    public string GetURLandPort()
     {
-		return "http://" + ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4 + ":" + port + videolink;
+        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port;
+    }
+
+    public string GetVideoURL()
+    {
+		return ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port + videolink;
 	}
 
     public void SetIP(int first, int second, int third, int fourth)

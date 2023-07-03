@@ -46,12 +46,12 @@ public class VideoSource
 
 	public string GetIP()
 	{
-		return ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4;
+		return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
 	}
 
 	public string GetVideoURL()
 	{
-		return "http://" + ip1 + ":" + ip2 + ":" + ip3 + ":" + ip4 + ":" + port + videolink;
+		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port + videolink;
 	}
 
 	public void SetIP(int first, int second, int third, int fourth)
