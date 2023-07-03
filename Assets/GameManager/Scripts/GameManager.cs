@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 	//public UIManager UIManager { get; private set; }
 	public List<VideoSource> videoSources = new List<VideoSource>();
-	public List<Rover> rovers = new List<Rover>();
+	public List<Trilobot> trilobots = new List<Trilobot>();
 
     Color uiColour = new Color(102,187,187);
 
@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
 		videoSources.Clear();
 		videoSources.Add(new VideoSource("Test Camera", 192, 168, 8, 134, 5000));
 
-		rovers.Clear();
-        rovers.Add(new Rover("Test Rover", 192, 168, 8, 104, 8080));
+		trilobots.Clear();
+		trilobots.Add(new Trilobot("Test Trilobot", 192, 168, 8, 104, 8080));
 
 
 	}

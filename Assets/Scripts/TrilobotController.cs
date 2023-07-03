@@ -8,7 +8,7 @@ public class RoverController : MonoBehaviour
 {
     PlayerInput userInput;
 
-    Rover rover;
+	Trilobot trilobot;
 
     void Start()
     {
@@ -31,60 +31,60 @@ public class RoverController : MonoBehaviour
     public void ControlForward()
 	{
         Debug.Log("http://192.168.8.104:5001/move/0.5/0.5");
-        rover = GameManager.Instance.rovers[0];
-        Debug.Log(rover.GetURL() + ":5001/move/0.5/0.5");
+		trilobot = GameManager.Instance.trilobots[0];
+        Debug.Log(trilobot.GetURL() + ":5001/move/0.5/0.5");
         
-        StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/0.5/0.5"));
+        StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/0.5/0.5"));
         
         //Application.OpenURL("192.168.8.104:5001/move/1/1");
     }
 
 	public void ControlForward_Full()
 	{
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/1/1"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/1/1"));
 		//Application.OpenURL("192.168.8.104:5001/move/1/1");
 	}
 
 	public void ControlBackward()
     {
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/-0.5/-0.5"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/-0.5/-0.5"));
     }
 
 	public void ControlBackward_Full()
 	{
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/-1/-1"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/-1/-1"));
 	}
 
 	public void ControlRight()
     {
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/0.5/-0.5"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/0.5/-0.5"));
     }
 
 	public void ControlRight_Full()
 	{
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/1/-1"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/1/-1"));
 	}
 
 	public void ControlLeft()
     {
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/-0.5/0.5"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/-0.5/0.5"));
     }
 	public void ControlLeft_Full()
 	{
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/move/-1/1"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/move/-1/1"));
 	}
 
 	public void ControlStop()
     {
-		rover = GameManager.Instance.rovers[0];
-		StartCoroutine(GetRequest(rover.GetURL() + ":5001/stop"));
+		trilobot = GameManager.Instance.trilobots[0];
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/stop"));
     }
 
 

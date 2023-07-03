@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Rover
+public class Trilobot
 {
 	public string Name { get; set; }
 
@@ -11,12 +11,12 @@ public class Rover
     string videolink = "/video_feed";
 
 
-    public Rover()
+    public Trilobot()
     {
 
     }
 
-	public Rover(string name, int ip1, int ip2, int ip3, int ip4, int port)
+	public Trilobot(string name, int ip1, int ip2, int ip3, int ip4, int port)
 	{
 		Name = name;
 		this.ip1 = ip1;
@@ -26,7 +26,7 @@ public class Rover
 		this.port = port;
 	}
 
-	public Rover(string name, string deviceName, int ip1, int ip2, int ip3, int ip4, int port, string videolink)
+	public Trilobot(string name, string deviceName, int ip1, int ip2, int ip3, int ip4, int port, string videolink)
     {
         Name = name;
         this.deviceName = deviceName;

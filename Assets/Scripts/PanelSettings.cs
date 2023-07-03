@@ -43,11 +43,11 @@ public class PanelSettings : MonoBehaviour
                 menuOptions.Add(videoSource.Name);
             }
         }
-        if (GameManager.Instance.rovers.Count > 0)
+        if (GameManager.Instance.trilobots.Count > 0)
         {
-            foreach (Rover rovers in GameManager.Instance.rovers)
+            foreach (Trilobot trilobots in GameManager.Instance.trilobots)
             {
-                menuOptions.Add(rovers.Name);
+                menuOptions.Add(trilobots.Name);
             }
         }
 
