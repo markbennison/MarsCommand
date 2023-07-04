@@ -5,15 +5,15 @@ using UnityEngine.Networking;
 
 public class JsonGrabber : MonoBehaviour
 {
-	public string json;
-	void Start()
-	{
-		StartCoroutine(GetText());
-	}
+	protected string json;
+	//void Start()
+	//{
+		//StartCoroutine(GetText());
+	//}
 
-	IEnumerator GetText()
+	protected IEnumerator GetText(string uri)
 	{
-		using (UnityWebRequest www = UnityWebRequest.Get("http://www.my-server.com"))
+		using (UnityWebRequest www = UnityWebRequest.Get(uri))
 		{
 			yield return www.Send();
 
@@ -25,10 +25,16 @@ public class JsonGrabber : MonoBehaviour
 			{
 				// Show results as text
 				json = www.downloadHandler.text;
-
+				JsonRetrieved();
 				// Or retrieve results as binary data
-				byte[] results = www.downloadHandler.data;
+				//byte[] results = www.downloadHandler.data;
 			}
 		}
 	}
+
+	virtual protected void JsonRetrieved()
+	{
+
+	}
+
 }
