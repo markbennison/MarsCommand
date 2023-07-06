@@ -13,6 +13,7 @@ public class JsonGrabber : MonoBehaviour
 
 	protected IEnumerator GetText(string uri)
 	{
+		Debug.Log("1");
 		using (UnityWebRequest www = UnityWebRequest.Get(uri))
 		{
 			yield return www.Send();

@@ -10,26 +10,34 @@ public class HeatMapper : JsonGrabber
 {
 	[SerializeField]
 	GameObject heatPixelPrefab;
-	int pixelDimension = 18;
 
 	[SerializeField]
-	float lowestTempRange = 0f;
+	GameObject heatMapGameObject;
+
 	[SerializeField]
-	float highestTempRange = 100f;
-	float TempRange;
+	GameObject heatScaleGameObject;
+
+	int pixelDimension = 18;
+
+	float minTemperature, maxTemperature;
 
 	[SerializeField]
 	string heatMapURI = "http://192.168.8.104:5002/heatmap/simplerows";
 
 	List<List<GameObject>> gridMap = new List<List<GameObject>>();
 	List<List<float>> floatMap = new List<List<float>>();
+	List<GameObject> heatScale = new List<GameObject>();
 
 	float timer = 0f;
 
 	void Start()
 	{
-		TempRange = highestTempRange - lowestTempRange;
+		minTemperature = 300;
+		maxTemperature = -40;
+
 		CreateSquareGrid(32, 24);
+		CreateScale(100);
+		SetScale(100);
 		//StartCoroutine(base.GetText(heatMapURI));
 	}
 
@@ -44,6 +52,13 @@ public class HeatMapper : JsonGrabber
 		}
 	}
 
+	void CreateScale(int range)
+	{
+		for (int i = 0; i < range; i++)
+		{
+			heatScale.Add(Instantiate(heatPixelPrefab, heatScaleGameObject.transform));
+		}
+	}
 
 	void CreateSquareGrid(int pixelsAcross, int pixelsDown)
 	{
@@ -54,7 +69,7 @@ public class HeatMapper : JsonGrabber
 			gridMap.Add(new List<GameObject>());
 			for (int x = 0; x < pixelsAcross; x++)
 			{
-				gridMap[y].Add(Instantiate(heatPixelPrefab, gameObject.transform));
+				gridMap[y].Add(Instantiate(heatPixelPrefab, heatMapGameObject.transform));
 			}
 		}
 	}
@@ -66,6 +81,7 @@ public class HeatMapper : JsonGrabber
 
 		List<string> stringRows = new List<string>();
 		floatMap.Clear();
+		float tempValue;
 
 		foreach (string row in json.Split(']'))
 		{
@@ -78,13 +94,24 @@ public class HeatMapper : JsonGrabber
 			floatMap.Add(new List<float>());
 			foreach (string item in stringColumns)
 			{
-				floatMap[i].Add(float.Parse(item.Trim('"')));
+				tempValue = float.Parse(item.Trim('"'));
+				ResetLowerHigherValues(tempValue);
+				floatMap[i].Add(tempValue);
 			}
 		}
-
 		MapToGrid();
 	}
 
+	void SetScale(float range)
+	{
+		float value, hue;
+		for (int i = 0; i < range; i++)
+		{
+			value = i / range;
+			hue = (1 - value) * 0.7f;
+			heatScale[i].GetComponent<Image>().color = Color.HSVToRGB(hue, 1, 1);
+		}
+	}
 
 	void MapToGrid()
 	{
@@ -92,38 +119,37 @@ public class HeatMapper : JsonGrabber
 		{
 			for (int x = 0; x < gridMap[y].Count; x++)
 			{
-				//Debug.Log(floatMap[y][x] + " || " + gridMap[y][x]);
-				Debug.Log(gridMap[y][x]);
-				//gridMap[y][x].GetComponent<Image>().color = HeatToColor(20);
+				//gridMap[y][x].GetComponent<Image>().color = HeatToGreyscale(floatMap[y][x]);
 				gridMap[y][x].GetComponent<Image>().color = HeatToShortRainbow(floatMap[y][x]);
 			}
 		}
 	}
 
-	Vector3 GridPosition(float x, float y)
+	void ResetLowerHigherValues(float value)
 	{
-		x *= pixelDimension;
-		y *= pixelDimension;
-
-		x += gameObject.transform.position.x;
-		y -= gameObject.transform.position.y;
-		//Debug.Log("x:" + x + "  | y:" + y + "    position: " + gameObject.transform.position.ToString());
-		return new Vector3(x, y, 0);
+		if(minTemperature > value)
+		{
+			minTemperature = value;
+		}
+		if(maxTemperature < value)
+		{
+			maxTemperature = value;
+		}
 	}
 
-	Color32 HeatToColor(float value)
+	Color32 HeatToGreyscale(float value)
 	{
-		if (value < lowestTempRange)
+		if (value < minTemperature)
 		{
-			value = lowestTempRange;
+			value = minTemperature;
 		}
-		else if (value > highestTempRange)
+		else if (value > maxTemperature)
 		{
-			value = highestTempRange;
+			value = maxTemperature;
 		}
 
-		value -= lowestTempRange;
-		value = value / highestTempRange;
+		value -= minTemperature;
+		value = value / (maxTemperature - minTemperature);
 		value *= 255;
 
 		return new Color32((byte)value, (byte)value, (byte)value, 255);
@@ -131,20 +157,18 @@ public class HeatMapper : JsonGrabber
 
 	Color32 HeatToShortRainbow(float value)
 	{
-		if (value < lowestTempRange)
+		if (value < minTemperature)
 		{
-			value = lowestTempRange;
+			value = minTemperature;
 		}
-		else if (value > highestTempRange)
+		else if (value > maxTemperature)
 		{
-			value = highestTempRange;
+			value = maxTemperature;
 		}
 
-		value -= lowestTempRange;
-		value = value / highestTempRange;
-
-		return Color.HSVToRGB(1-value, 1, 1);
+		value -= minTemperature;
+		value = value / (maxTemperature - minTemperature);
+		float hue = (1 - value) * 0.7f;
+		return Color.HSVToRGB(hue, 1, 1);
 	}
-
-
 }
