@@ -10,48 +10,69 @@ public class HeatMapper : JsonGrabber
 {
 	[SerializeField]
 	GameObject heatPixelPrefab;
+	int pixelDimension = 18;
 
 	[SerializeField]
-	float lowestTempRange = 10f;
+	float lowestTempRange = 0f;
 	[SerializeField]
-	float highestTempRange = 30f;
+	float highestTempRange = 100f;
 	float TempRange;
 
 	[SerializeField]
 	string heatMapURI = "http://192.168.8.104:5002/heatmap/simplerows";
 
 	List<List<GameObject>> gridMap = new List<List<GameObject>>();
-	//JSON jsonObject = new JSON();
+	List<List<float>> floatMap = new List<List<float>>();
+
+	float timer = 0f;
 
 	void Start()
 	{
 		TempRange = highestTempRange - lowestTempRange;
-		CreateSquareGrid(32, 20);
+		CreateSquareGrid(32, 24);
+		//StartCoroutine(base.GetText(heatMapURI));
+	}
+
+	void Update()
+	{
+		timer -= Time.deltaTime;
+
+		if (timer <= 0)
+		{
+			timer = 2f;
+			StartCoroutine(base.GetText(heatMapURI));
+		}
+	}
 
 
-		StartCoroutine(base.GetText(heatMapURI));
+	void CreateSquareGrid(int pixelsAcross, int pixelsDown)
+	{
+		int topXValue = pixelsDown * pixelDimension;
 
-
+		for (int y = 0; y < pixelsDown; y++)
+		{
+			gridMap.Add(new List<GameObject>());
+			for (int x = 0; x < pixelsAcross; x++)
+			{
+				gridMap[y].Add(Instantiate(heatPixelPrefab, gameObject.transform));
+			}
+		}
 	}
 
 	override protected void JsonRetrieved()
 	{
-		Debug.Log(json);
-		//JArray jsonArray = jsonObject.GetJArray("numberArray"); // Contains ints 1,2,4,8
-		//StringToIntList(json);
 		json = json.Remove(0, 8);
-		json = json.Remove(json.Length - 4, 3);
-		Debug.Log(json);
+		json = json.Remove(json.Length - 4, 4);
 
 		List<string> stringRows = new List<string>();
-		List<List<float>> floatMap = new List<List<float>>();
+		floatMap.Clear();
 
 		foreach (string row in json.Split(']'))
 		{
 			stringRows.Add(row.Remove(0, 2));
 		}
 
-		for (int i = 0; i < stringRows.Count - 1; i++)
+		for (int i = 0; i < stringRows.Count; i++)
 		{
 			string[] stringColumns = stringRows[i].Split(',');
 			floatMap.Add(new List<float>());
@@ -61,53 +82,36 @@ public class HeatMapper : JsonGrabber
 			}
 		}
 
-		//Debugger
-		for (int y = 0; y < floatMap.Count - 1; y++)
-		{
-			
-			for (int x = 0; x < floatMap[y].Count - 1; x++)
-			{
-				
-				//GameObject pixel = Instantiate(heatPixelPrefab, new Vector3(x * 20f, y * 20f, 0), Quaternion.identity, gameObject.transform);
-				//pixel.GetComponent<RawImage>().color = HeatColor(item);
-			}
-		}
-
-
+		MapToGrid();
 	}
 
-	void CreateSquareGrid(int pixelsAcross, int pixelsDown)
+
+	void MapToGrid()
 	{
-		int topXValue = pixelsDown * 20;
-
-		for (int y = 0; y < pixelsDown - 1; y++)
+		for (int y = 0; y < gridMap.Count; y++)
 		{
-			gridMap.Add(new List<GameObject>());
-			for (int x = 0; x < pixelsAcross - 1; x++)
+			for (int x = 0; x < gridMap[y].Count; x++)
 			{
-				gridMap[y].Add(Instantiate(heatPixelPrefab, gameObject.transform));
-				//gridMap[x]
-				//gridMap[y].Add(Instantiate(heatPixelPrefab, new Vector3(x * 20f, 0 - (y * 20f), 0), Quaternion.identity, gameObject.transform));
-				//gridMap[y].Add(Instantiate(heatPixelPrefab, gameObject.transform, false));
-				//gridMap[y][x].transform.position = new Vector3(x * 20f, 0 - (y * 20f), 0);
-
+				//Debug.Log(floatMap[y][x] + " || " + gridMap[y][x]);
+				Debug.Log(gridMap[y][x]);
+				//gridMap[y][x].GetComponent<Image>().color = HeatToColor(20);
+				gridMap[y][x].GetComponent<Image>().color = HeatToShortRainbow(floatMap[y][x]);
 			}
 		}
-
 	}
 
 	Vector3 GridPosition(float x, float y)
 	{
-		x *= 20;
-		y *= 20;
+		x *= pixelDimension;
+		y *= pixelDimension;
 
 		x += gameObject.transform.position.x;
 		y -= gameObject.transform.position.y;
-		Debug.Log("x:" + x + "  | y:" + y + "    position: " + gameObject.transform.position.ToString());
+		//Debug.Log("x:" + x + "  | y:" + y + "    position: " + gameObject.transform.position.ToString());
 		return new Vector3(x, y, 0);
 	}
 
-	Color HeatColor(float value)
+	Color32 HeatToColor(float value)
 	{
 		if (value < lowestTempRange)
 		{
@@ -122,7 +126,24 @@ public class HeatMapper : JsonGrabber
 		value = value / highestTempRange;
 		value *= 255;
 
-		return new Color(value, value, value);
+		return new Color32((byte)value, (byte)value, (byte)value, 255);
+	}
+
+	Color32 HeatToShortRainbow(float value)
+	{
+		if (value < lowestTempRange)
+		{
+			value = lowestTempRange;
+		}
+		else if (value > highestTempRange)
+		{
+			value = highestTempRange;
+		}
+
+		value -= lowestTempRange;
+		value = value / highestTempRange;
+
+		return Color.HSVToRGB(1-value, 1, 1);
 	}
 
 
