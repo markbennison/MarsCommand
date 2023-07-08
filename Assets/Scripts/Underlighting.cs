@@ -8,9 +8,9 @@ public class Underlighting : MonoBehaviour
 {
     Trilobot trilobot;
 
-    int red = 0;
-    int green = 0;
-    int blue = 0;
+    float red = 0;
+	float green = 0;
+	float blue = 0;
 
     [SerializeField]
     Slider RedSlider;
@@ -21,8 +21,14 @@ public class Underlighting : MonoBehaviour
     [SerializeField]
     Slider BlueSlider;
 
-    // Start is called before the first frame update
-    void Start()
+	[SerializeField]
+	Image trilobotImage;
+
+	[SerializeField]
+	Image underlightImage;
+
+	// Start is called before the first frame update
+	void Start()
     {
 
     }
@@ -35,16 +41,28 @@ public class Underlighting : MonoBehaviour
 
     public void ColorSliderChange()
 	{
-        red = (int)RedSlider.value;
-        green = (int)GreenSlider.value;
-        blue = (int)BlueSlider.value;
+        red = RedSlider.value;
+        green = GreenSlider.value;
+        blue = BlueSlider.value;
     }
 
     public void SendUnderlighting()
     {
         trilobot = GameManager.Instance.trilobots[0];
-        StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/colour/" + red + "/" + green + "/" + blue));
-    }
+		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/colour/" + red + "/" + green + "/" + blue));
+
+        if(red == 0 && green == 0 && blue == 0)
+        {
+			underlightImage.color = new Color(0,0,0,0);
+            return;
+		}
+
+		float normalisedRed = red / 255f;
+		float normalisedGreen = green / 255f;
+		float normalisedBlue = blue / 255f;
+
+		underlightImage.color = new Color(normalisedRed, normalisedGreen, normalisedBlue);
+	}
 
     IEnumerator GetRequest(string uri)
     {
