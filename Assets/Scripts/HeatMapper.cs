@@ -32,12 +32,15 @@ public class HeatMapper : JsonGrabber
 
 	void Start()
 	{
+		heatMapURI = GameManager.Instance.trilobots[0].GetHeatMapURL();
+
 		minTemperature = 300;
 		maxTemperature = -40;
 
 		CreateSquareGrid(32, 24);
 		CreateScale(100);
 		SetScale(100);
+
 		//StartCoroutine(base.GetText(heatMapURI));
 	}
 

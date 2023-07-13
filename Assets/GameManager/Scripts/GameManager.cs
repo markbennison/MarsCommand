@@ -22,6 +22,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         //UIManager = GetComponent<UIManager>();
+
+        videoSources.Clear();
+        videoSources.Add(new VideoSource("Test Camera", 192, 168, 8, 134, 8080));
+
+        trilobots.Clear();
+        trilobots.Add(new Trilobot("Test Trilobot", 192, 168, 8, 104));
+
     }
 
     void Start()
@@ -32,11 +39,6 @@ public class GameManager : MonoBehaviour
 		//Rover
 		//http://192.168.8.104:8080/video_feed
 
-		videoSources.Clear();
-		videoSources.Add(new VideoSource("Test Camera", 192, 168, 8, 134, 5000));
-
-		trilobots.Clear();
-		trilobots.Add(new Trilobot("Test Trilobot", 192, 168, 8, 104, 8080));
 
 
 	}

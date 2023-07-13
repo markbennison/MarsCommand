@@ -6,17 +6,16 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MJPEGStreamDecoder : MonoBehaviour
+public class VideoStreamer : MonoBehaviour
 {
 	[SerializeField] bool tryOnStart = true;
-	[SerializeField] string defaultStreamURL = "http://192.168.8.134:5000/video_feed";
+	[SerializeField] string defaultStreamURL = "http://192.168.8.104:8080/video_feed";
 	//try "http://192.168.0.0:5000/video_feed/?dummy=param.mjpg"
 	//CAM1: http://192.168.8.134:5000/video_feed
-	string streamURL;
+	[SerializeField] string streamURL;
 
-	//RawImage rawImage;
-	//RenderTexture renderTexture;
-	[SerializeField] RenderTexture renderTexture;
+	RawImage rawImage;
+	RenderTexture renderTexture;
 
 	float RETRY_DELAY = 5f;
 	int MAX_RETRIES = 3;
@@ -34,6 +33,11 @@ public class MJPEGStreamDecoder : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		renderTexture = new RenderTexture(640, 480, 32, RenderTextureFormat.ARGB32);
+		renderTexture.Create();
+
+		rawImage = GetComponent<RawImage>();
+		rawImage.texture = renderTexture;
 
 		if (streamURL == null || streamURL == "")
 		{
@@ -56,6 +60,11 @@ public class MJPEGStreamDecoder : MonoBehaviour
 			SendFrame(nextFrame);
 			nextFrame = null;
 		}
+
+		if (streamURL != defaultStreamURL)
+		{
+			ResetStream(streamURL);
+		}
 	}
 
 	private void OnDestroy()
@@ -69,7 +78,9 @@ public class MJPEGStreamDecoder : MonoBehaviour
 
 	public void StartStream(string url)
 	{
+		streamURL = url;
 		defaultStreamURL = url;
+
 		retryCount = 0;
 		StopAllCoroutines();
 		foreach (var b in trackedBuffers)
@@ -77,6 +88,15 @@ public class MJPEGStreamDecoder : MonoBehaviour
 
 		worker = new Thread(() => ReadMJPEGStreamWorker(threadID = randu.Next(65536), url));
 		worker.Start();
+	}
+
+	public void ResetStream(string url)
+	{
+		streamURL = url;
+		defaultStreamURL = url;
+		nextFrame = null;
+		worker.Abort();
+		StartStream(url);
 	}
 
 	void ReadMJPEGStreamWorker(int id, string url)

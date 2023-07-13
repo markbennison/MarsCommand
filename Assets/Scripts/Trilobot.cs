@@ -7,35 +7,30 @@ public class Trilobot
 
 	string deviceName = "Unknown Rover";
     int ip1, ip2, ip3, ip4;
-    int port;
+
+    int atmosphericPort = 5000;
+    int mainBoardPort = 5001;
+    int heatSensorPort = 5002;
+    int cameraPort = 8080;
+
     string videolink = "/video_feed";
+    string heatMapRows = "/heatmap/simplerows";
 
-
-    public Trilobot()
-    {
-
-    }
-
-	public Trilobot(string name, int ip1, int ip2, int ip3, int ip4, int port)
-	{
-		Name = name;
-		this.ip1 = ip1;
-		this.ip2 = ip2;
-		this.ip3 = ip3;
-		this.ip4 = ip4;
-		this.port = port;
-	}
-
-	public Trilobot(string name, string deviceName, int ip1, int ip2, int ip3, int ip4, int port, string videolink)
+    public Trilobot(string name, int ip1, int ip2, int ip3, int ip4)
     {
         Name = name;
-        this.deviceName = deviceName;
         this.ip1 = ip1;
         this.ip2 = ip2;
         this.ip3 = ip3;
         this.ip4 = ip4;
-        this.port = port;
-        this.videolink = videolink;
+    }
+
+    public Trilobot(int ip1, int ip2, int ip3, int ip4)
+    {
+        this.ip1 = ip1;
+        this.ip2 = ip2;
+        this.ip3 = ip3;
+        this.ip4 = ip4;
     }
 
     public string GetDeviceName()
@@ -53,15 +48,39 @@ public class Trilobot
 		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4;
 	}
 
-    public string GetURLandPort()
-    {
-        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port;
-    }
-
     public string GetVideoURL()
     {
-		return ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port + videolink;
+		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + cameraPort + videolink;
 	}
+    public string GetMainURL()
+    {
+        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + mainBoardPort + videolink;
+    }
+
+    public string GetControlURL()
+    {
+        return GetMainURL();
+    }
+
+    public string GetDistanceURL()
+    {
+        return GetMainURL();
+    }
+
+    public string GetUnderlightURL()
+    {
+        return GetMainURL();
+    }
+
+    public string GetAtmosphericURL()
+    {
+        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + atmosphericPort;
+    }
+
+    public string GetHeatMapURL()
+	{
+        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + heatSensorPort + heatMapRows;
+    }
 
     public void SetIP(int first, int second, int third, int fourth)
     {
@@ -70,14 +89,4 @@ public class Trilobot
         ip3 = third;
         ip4 = fourth;
     }
-
-	public void SetIP(int first, int second, int third, int fourth, int port)
-	{
-		ip1 = first;
-		ip2 = second;
-		ip3 = third;
-		ip4 = fourth;
-        this.port = port;
-	}
-
 }
