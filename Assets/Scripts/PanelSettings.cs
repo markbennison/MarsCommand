@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelSettings : MonoBehaviour
 {
@@ -8,12 +11,20 @@ public class PanelSettings : MonoBehaviour
     GameObject settingsMenu;
 	
     [SerializeField]
-	GameObject loadSubPanel;
+	Transform subPanelMask;
 
-    bool settingsOpen;
+	[SerializeField]
+	Transform panelOptionsList;
 
-	// Start is called before the first frame update
-	void Start()
+	[SerializeField]
+	GameObject settingsButtonPrefab;
+
+	bool settingsOpen;
+
+    bool subPanelActive = false;
+
+    // Start is called before the first frame update
+    void Start()
     {
 		toggleSettingsStatus(false);
 	}
@@ -32,29 +43,15 @@ public class PanelSettings : MonoBehaviour
 
             return;
 		}
-		
 
-		List<string> menuOptions = new List<string>();
-
-        if (GameManager.Instance.videoSources.Count > 0)
-        {
-            foreach (VideoSource videoSource in GameManager.Instance.videoSources)
-            {
-                menuOptions.Add(videoSource.Name);
-            }
-        }
-        if (GameManager.Instance.trilobots.Count > 0)
-        {
-            foreach (Trilobot trilobots in GameManager.Instance.trilobots)
-            {
-                menuOptions.Add(trilobots.Name);
-            }
-        }
-
-        foreach (string menuItem in menuOptions)
-        {
-            Debug.Log(menuItem);
-        }
+		if (subPanelActive)
+		{
+			InitialiseClosePanelSetting();
+		}
+		else
+		{
+			InitialiseSettingsList();
+		}
 
 		toggleSettingsStatus(true);
 	}
@@ -64,4 +61,67 @@ public class PanelSettings : MonoBehaviour
 		settingsOpen = active;
 		settingsMenu.SetActive(active);
 	}
+
+	//
+	//
+	//
+
+	void InitialiseSettingsList()
+	{
+		List<string> menuOptions = GameManager.Instance.GetSettingsOptions();
+
+		ClearSettingsList();
+		GameObject gameObject;
+
+		for (int i = 0; i < menuOptions.Count; i++)
+		{
+			gameObject = Instantiate(settingsButtonPrefab, panelOptionsList);
+			gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = menuOptions[i];
+			gameObject.GetComponent<Button>().AddEventListener(i, SettingsOptionClicked);
+		}
+	}
+
+	void InitialiseClosePanelSetting()
+	{
+		ClearSettingsList();
+		GameObject gameObject = Instantiate(settingsButtonPrefab, panelOptionsList);
+		gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Close Panel";
+		gameObject.GetComponent<Button>().AddEventListener(0, CloseButtonClicked);
+	}
+
+	void ClearSettingsList()
+	{
+		foreach (Transform child in panelOptionsList)
+		{
+			Destroy(child.gameObject);
+		}
+	}
+
+	void SettingsOptionClicked(int index)
+	{
+		GameObject panel = Instantiate(GameManager.Instance.PanelByIndex(index), subPanelMask);
+		panel.GetComponent<SubPanelManager>().Initiate(GameManager.Instance.UriByIndex(index));
+		subPanelActive = true;
+		DisplaySettings();
+	}
+
+	void CloseButtonClicked(int index)
+	{
+		Debug.Log("Close");
+		foreach (Transform child in subPanelMask)
+		{
+			Destroy(child.gameObject);
+		}
+		subPanelActive = false;
+		DisplaySettings();
+	}
+
 }
+public static class ButtonExtension
+{
+	public static void AddEventListener<T>(this Button button, T param, Action<T> OnClick)
+	{
+		button.onClick.AddListener(delegate () { OnClick(param); });
+	}
+}
+

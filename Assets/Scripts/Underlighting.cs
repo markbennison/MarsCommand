@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class Underlighting : MonoBehaviour
 {
-    Trilobot trilobot;
+    //Trilobot trilobot;
+
+    string url = "";
 
     float red = 0;
 	float green = 0;
@@ -27,16 +29,9 @@ public class Underlighting : MonoBehaviour
 	[SerializeField]
 	Image underlightImage;
 
-	// Start is called before the first frame update
-	void Start()
+    public void Initiate(string uri)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.url = uri;
     }
 
     public void ColorSliderChange()
@@ -48,8 +43,13 @@ public class Underlighting : MonoBehaviour
 
     public void SendUnderlighting()
     {
-        trilobot = GameManager.Instance.trilobots[0];
-		StartCoroutine(GetRequest(trilobot.GetURL() + ":5001/colour/" + red + "/" + green + "/" + blue));
+        if (url == "")
+        {
+            Debug.Log("No URL for Underlighting");
+            return;
+        }
+
+		StartCoroutine(GetRequest(url + "/colour/" + red + "/" + green + "/" + blue));
 
         if(red == 0 && green == 0 && blue == 0)
         {

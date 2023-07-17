@@ -54,7 +54,7 @@ public class Trilobot
 	}
     public string GetMainURL()
     {
-        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + mainBoardPort + videolink;
+        return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + mainBoardPort;
     }
 
     public string GetControlURL()

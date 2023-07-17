@@ -7,25 +7,20 @@ using TMPro;
 
 public class AtmosphericDataGrabber : JsonGrabber
 {
-    string uri;
-
     [SerializeField]
     TextMeshProUGUI temperatureText, pressureText, humidityText;
 
-    string units = "";
-
-    float value = 0f;
     float timer = 0f;
 
     AtmosphericData data;
 
     void Start()
     {
-        uri = GameManager.Instance.trilobots[0].GetAtmosphericURL();
+        //uri = GameManager.Instance.trilobots[0].GetAtmosphericURL();
 
     }
 
-    void Update()
+    override protected void UpdateRunning()
     {
         timer -= Time.deltaTime;
 

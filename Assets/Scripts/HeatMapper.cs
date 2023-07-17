@@ -21,9 +21,6 @@ public class HeatMapper : JsonGrabber
 
 	float minTemperature, maxTemperature;
 
-	[SerializeField]
-	string heatMapURI = "http://192.168.8.104:5002/heatmap/simplerows";
-
 	List<List<GameObject>> gridMap = new List<List<GameObject>>();
 	List<List<float>> floatMap = new List<List<float>>();
 	List<GameObject> heatScale = new List<GameObject>();
@@ -32,8 +29,6 @@ public class HeatMapper : JsonGrabber
 
 	void Start()
 	{
-		heatMapURI = GameManager.Instance.trilobots[0].GetHeatMapURL();
-
 		minTemperature = 300;
 		maxTemperature = -40;
 
@@ -44,14 +39,14 @@ public class HeatMapper : JsonGrabber
 		//StartCoroutine(base.GetText(heatMapURI));
 	}
 
-	void Update()
+	override protected void UpdateRunning()
 	{
 		timer -= Time.deltaTime;
 
 		if (timer <= 0)
 		{
 			timer = 2f;
-			StartCoroutine(base.GetText(heatMapURI));
+			StartCoroutine(base.GetText(uri));
 		}
 	}
 

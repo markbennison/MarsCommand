@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VideoController : MonoBehaviour
+public class VideoController : SubPanelManager
 {
     [SerializeField]
     VideoStreamer rawFeed_VideoStreamer;
-    [SerializeField]
-    string url = "";
+
     bool streamStarted = false;
 
     [SerializeField]
@@ -15,42 +14,47 @@ public class VideoController : MonoBehaviour
 
     void Start()
     {
-        if (camNotTrilobot)
-        {
-            url = GameManager.Instance.videoSources[0].GetVideoURL();
-        }
-        else
-        {
-            url = GameManager.Instance.trilobots[0].GetVideoURL();
-        }
-        //Debug.Log(url);
+        //if (camNotTrilobot)
+        //{
+        //    uri = GameManager.Instance.videoSources[0].GetVideoURL();
+        //}
+        //else
+        //{
+        //    uri = GameManager.Instance.trilobots[0].GetVideoURL();
+        //}
+        //Debug.Log(uri);
     }
 
 
-    void Update()
+    //void Update()
+    //{
+    //    FirstStartStream();
+
+    //}
+
+    override protected void UpdateRunning()
     {
         FirstStartStream();
-
     }
 
-    public void BootStream(string url)
+    public void BootStream(string uri)
     {
-        this.url = url;
+        this.uri = uri;
         FirstStartStream();
     }
 
     void FirstStartStream()
 	{
-        if (!streamStarted && url != "")
+        if (!streamStarted && uri != "")
         {
             streamStarted = true;
-            rawFeed_VideoStreamer.StartStream(url);
+            rawFeed_VideoStreamer.StartStream(uri);
         }
     }
 
-    void RestartStream(string url)
+    void RestartStream(string uri)
 	{
         streamStarted = true;
-        rawFeed_VideoStreamer.ResetStream(url);
+        rawFeed_VideoStreamer.ResetStream(uri);
     }
 }

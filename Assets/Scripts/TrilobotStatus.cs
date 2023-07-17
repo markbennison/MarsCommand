@@ -6,32 +6,32 @@ using TMPro;
 
 public class TrilobotStatus : JsonGrabber
 {
+    Underlighting underlighting;
+
     [SerializeField]
     TextMeshProUGUI idTextObject;
 
     [SerializeField]
     TextMeshProUGUI nameTextObject;
 
-    [SerializeField]
-    string uri = "http://192.168.8.104:5001/";
-
     float timer = 0f;
+    bool initialised = false;
 
-    void Start()
+    override protected void UpdateRunning()
     {
-        StartCoroutine(base.GetText(uri));
+		if (!initialised)
+		{
+			StartCoroutine(GetText(uri + "/"));
+			initialised = true;
+			underlighting.Initiate(uri);
+		}
+	}
+
+	private void Start()
+	{
+        underlighting = GetComponent<Underlighting>();
     }
 
-    void Update()
-    {
-        //timer -= Time.deltaTime;
-
-        //if (timer <= 0)
-        //{
-        //    timer = 2f;
-        //    StartCoroutine(base.GetText(uri));
-        //}
-    }
 
     override protected void JsonRetrieved()
     {

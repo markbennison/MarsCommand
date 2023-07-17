@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3564968954809533324}
   - component: {fileID: 126265600617319672}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: PanelOptionsList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -944,7 +944,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settingsMenu: {fileID: 9211161520457123255}
-  loadSubPanel: {fileID: 6118198835417869327}
+  subPanelMask: {fileID: 4509831800496338623}
+  panelOptionsList: {fileID: 7006953991976567591}
+  settingsButtonPrefab: {fileID: 1365132513871354970, guid: a3078a94dd272004b843a91a677e138f, type: 3}
 --- !u!1 &9211161520457123255
 GameObject:
   m_ObjectHideFlags: 0
