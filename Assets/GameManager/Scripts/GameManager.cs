@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 	public List<VideoSource> videoSources = new List<VideoSource>();
 	public List<Trilobot> trilobots = new List<Trilobot>();
 
+    public List<GameObject> panelPrefabs = new List<GameObject>();
+
     Color uiColour = new Color(102,187,187);
 
 	void Awake()

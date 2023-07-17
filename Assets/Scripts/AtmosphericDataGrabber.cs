@@ -38,58 +38,43 @@ public class AtmosphericDataGrabber : JsonGrabber
 
     override protected void JsonRetrieved()
     {
-        //data = JsonUtility.FromJson<AtmosphericData>(json);
-        data = AtmosphericData.CreateFromJSON(json);
-
-        Debug.Log(data + " ||| " + json);
+        data = new AtmosphericData(json);
 
         temperatureText.text = data.GetTemperatureString();
         pressureText.text = data.GetPressureString();
         humidityText.text = data.GetHumidityString();
-
-
-        //json = json.Remove(0, 8);
-
-        //int index = json.IndexOf(",");
-        //if (index >= 0)
-        //{
-        //    json = json.Substring(0, index);
-        //}
-        //else
-        //{
-        //    json = "0";
-        //}
-
-        //float.TryParse(json, out value);
-
-        //textObject.text = value.ToString() + " " + units;
-
     }
 }
 
+[System.Serializable]
 public class AtmosphericData
 {
-    float humidity;
-    string humidityUnits;
-    float pressure;
-    string pressureUnits;
-    float temperature;
-    string temperatureUnits;
+    public float humidity;
+    public string humidityUnits;
+    public float pressure;
+    public string pressureUnits;
+    public float temperature;
+    public string temperatureUnits;
+
+    public AtmosphericData(string jsonString)
+    {
+        AtmosphericData data = CreateFromJSON(jsonString);
+
+        //Debug.Log(data.humidity + " | " + data.pressure + " | " + data.temperature);
+
+        humidity = data.humidity;
+        humidityUnits = data.humidityUnits;
+        pressure = data.pressure;
+        pressureUnits = data.pressureUnits;
+        temperature = data.temperature;
+        temperatureUnits = data.temperatureUnits;
+
+    }
 
     public static AtmosphericData CreateFromJSON(string jsonString)
     {
         return JsonUtility.FromJson<AtmosphericData>(jsonString);
     }
-
-    //public AtmosphericData(float humidity, string humidityUnits, float pressure,string pressureUnits, float temperature,string temperatureUnits)
-    //{
-    //    this.humidity = humidity;
-    //    this.humidityUnits = humidityUnits;
-    //    this.pressure = pressure;
-    //    this.pressureUnits = pressureUnits;
-    //    this.temperature = temperature;
-    //    this.temperatureUnits = temperatureUnits;
-    //}
 
     public string GetHumidityString()
     {
@@ -97,7 +82,7 @@ public class AtmosphericData
     }
 
     public string GetPressureString()
-	{
+    {
         return pressure.ToString() + " " + pressureUnits;
     }
     public string GetTemperatureString()

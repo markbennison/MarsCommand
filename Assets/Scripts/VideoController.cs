@@ -23,7 +23,7 @@ public class VideoController : MonoBehaviour
         {
             url = GameManager.Instance.trilobots[0].GetVideoURL();
         }
-        Debug.Log(url);
+        //Debug.Log(url);
     }
 
 

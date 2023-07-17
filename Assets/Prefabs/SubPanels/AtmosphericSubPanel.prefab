@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 180, y: 120}
-  m_SizeDelta: {x: 180, y: 50}
+  m_SizeDelta: {x: 320, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &5554447258147713012
 CanvasRenderer:
@@ -220,9 +220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2735451598984370025}
-  - component: {fileID: 9073651002797515392}
-  - component: {fileID: 5269002218157018586}
-  - component: {fileID: 6546145786900479363}
+  - component: {fileID: 1239758597932802603}
   m_Layer: 0
   m_Name: AtmosphericSubPanel
   m_TagString: Untagged
@@ -251,7 +249,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9073651002797515392
+--- !u!114 &1239758597932802603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,42 +258,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2968488076504550217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f85b9ac32498834f8495af3ae6ba876, type: 3}
+  m_Script: {fileID: 11500000, guid: f0986ea06f42bc24aacb33ecf3740665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textObject: {fileID: 5075440486113360718}
-  uri: http://192.168.8.104:5000/temperature
-  units: "\xB0C"
---- !u!114 &5269002218157018586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2968488076504550217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f85b9ac32498834f8495af3ae6ba876, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textObject: {fileID: 2950431725223993406}
-  uri: http://192.168.8.104:5000/humidity
-  units: '%RH'
---- !u!114 &6546145786900479363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2968488076504550217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f85b9ac32498834f8495af3ae6ba876, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textObject: {fileID: 3822172623415184197}
-  uri: http://192.168.8.104:5000/pressure
-  units: hPa
+  temperatureText: {fileID: 5075440486113360718}
+  pressureText: {fileID: 2950431725223993406}
+  humidityText: {fileID: 3822172623415184197}
 --- !u!1 &4292341812714684511
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +376,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 180, y: 0}
-  m_SizeDelta: {x: 180, y: 50}
+  m_SizeDelta: {x: 320, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &306122685841778527
 CanvasRenderer:
@@ -619,7 +587,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 180, y: -120}
-  m_SizeDelta: {x: 180, y: 50}
+  m_SizeDelta: {x: 320, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4243894481699063345
 CanvasRenderer:
