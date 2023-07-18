@@ -74,6 +74,9 @@ public class VideoStreamer : MonoBehaviour
 			if (b != null)
 				b.Close();
 		}
+
+		nextFrame = null;
+		worker.Abort();
 	}
 
 	public void StartStream(string url)
