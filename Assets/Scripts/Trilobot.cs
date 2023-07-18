@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Trilobot
+public class Trilobot : Device
 {
-	public string Name { get; set; }
-
-	string deviceName = "Unknown Rover";
-    int ip1, ip2, ip3, ip4;
+    string defaultName = "Unknown Trilobot";
+    int defaultPort = 8080;
 
     int atmosphericPort = 5000;
     int mainBoardPort = 5001;
@@ -23,35 +21,44 @@ public class Trilobot
         this.ip2 = ip2;
         this.ip3 = ip3;
         this.ip4 = ip4;
+        port = defaultPort;
     }
 
     public Trilobot(int ip1, int ip2, int ip3, int ip4)
     {
+        Name = defaultName;
         this.ip1 = ip1;
         this.ip2 = ip2;
         this.ip3 = ip3;
         this.ip4 = ip4;
+        port = defaultPort;
     }
 
-    public string GetDeviceName()
+    public Trilobot(int ip1, int ip2, int ip3, int ip4, int port)
     {
-        return deviceName;
+        Name = defaultName;
+        this.ip1 = ip1;
+        this.ip2 = ip2;
+        this.ip3 = ip3;
+        this.ip4 = ip4;
+        this.port = port;
     }
 
-    public string GetIP()
+    public Trilobot(string name, int ip1, int ip2, int ip3, int ip4, int port)
     {
-        return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
+        Name = name;
+        this.ip1 = ip1;
+        this.ip2 = ip2;
+        this.ip3 = ip3;
+        this.ip4 = ip4;
+        this.port = port;
     }
-
-	public string GetURL()
-	{
-		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4;
-	}
 
     public string GetVideoURL()
     {
-		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + cameraPort + videolink;
-	}
+        return GetURLAndPort() + videolink;
+    }
+
     public string GetMainURL()
     {
         return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + mainBoardPort;

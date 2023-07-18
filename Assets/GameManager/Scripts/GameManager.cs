@@ -7,8 +7,12 @@ public class GameManager : MonoBehaviour
     // DESIGN PATTERN: SINGLETON
     public static GameManager Instance { get; private set; }
     //public UIManager UIManager { get; private set; }
+
+    List<Device> devices = new List<Device>();
     public List<VideoSource> videoSources = new List<VideoSource>();
     public List<Trilobot> trilobots = new List<Trilobot>();
+
+    [SerializeField] GameObject panelDevices;
 
     [SerializeField] GameObject panelVideo;
     [SerializeField] GameObject panelHeat;
@@ -34,10 +38,10 @@ public class GameManager : MonoBehaviour
         //UIManager = GetComponent<UIManager>();
 
         videoSources.Clear();
-        videoSources.Add(new VideoSource("Test Camera", 192, 168, 8, 134, 8080));
+        //videoSources.Add(new VideoSource("Test Camera", 192, 168, 8, 134));
 
         trilobots.Clear();
-        trilobots.Add(new Trilobot("Test Trilobot", 192, 168, 8, 104));
+        //trilobots.Add(new Trilobot("Test Trilobot", 192, 168, 8, 104));
 
     }
 
@@ -57,6 +61,77 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public List<string> GetDeviceNames()
+	{
+        List<string> list = new List<string>();
+        RefreshDevices();
+
+        foreach (Device device in devices)
+        {
+            list.Add(device.Name);
+        }
+
+        return list;
+    }
+
+    public List<string> GetDeviceNamesAndTypes()
+    {
+        List<string> list = new List<string>();
+        RefreshDevices();
+
+        foreach (Device device in devices)
+        {
+            list.Add(device.Name + " (" + device.GetType() + ")");
+        }
+
+        return list;
+    }
+
+
+
+    void RefreshDevices()
+    {
+        devices.Clear();
+
+        foreach (VideoSource videoSource in videoSources)
+        {
+            devices.Add(videoSource);
+        }
+
+        foreach (Trilobot trilobot in trilobots)
+        {
+            devices.Add(trilobot);
+        }
+    }
+
+    public void RemoveDevice(int index)
+	{
+        Debug.Log("REMOVE: " + index);
+        int offsetIndex = 0;
+
+        if (devices.Count == 0)
+		{
+            Debug.Log("NO DEVICES");
+            return;
+		}
+
+        if(devices[index] is VideoSource)
+		{
+            offsetIndex = index;
+            Debug.Log("VideoSource at " + offsetIndex);
+            videoSources.RemoveAt(offsetIndex);
+            return;
+        }
+
+        if (devices[index] is Trilobot)
+        {
+            offsetIndex = index - videoSources.Count;
+            Debug.Log("Trilobot at " + offsetIndex);
+            trilobots.RemoveAt(offsetIndex);
+            return;
+        }
+        RefreshDevices();
+    }
 
     public GameObject PanelByIndex(int index)
 	{
@@ -114,6 +189,10 @@ public class GameManager : MonoBehaviour
             settingsPanels.Add(panelControl);
             settingsURI.Add(trilobot.GetMainURL());
         }
+
+        settingsOptions.Add("* Device Manager *");
+        settingsPanels.Add(panelDevices);
+        settingsURI.Add("192.168.8.0");
     }
 
 }

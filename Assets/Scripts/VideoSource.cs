@@ -2,19 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VideoSource
+public class VideoSource : Device
 {
-	public string Name { get; set; }
+	string defaultName = "Unknown Source";
+	int defaultPort = 8080;
 
-	string deviceName = "Unknown Source";
-	int ip1, ip2, ip3, ip4;
-	int port;
 	string videolink = "/video_feed";
 
-
-	public VideoSource()
+	public VideoSource(string name, int ip1, int ip2, int ip3, int ip4)
 	{
+		Name = name;
+		this.ip1 = ip1;
+		this.ip2 = ip2;
+		this.ip3 = ip3;
+		this.ip4 = ip4;
+		port = defaultPort;
+	}
 
+	public VideoSource(int ip1, int ip2, int ip3, int ip4)
+	{
+		Name = defaultName;
+		this.ip1 = ip1;
+		this.ip2 = ip2;
+		this.ip3 = ip3;
+		this.ip4 = ip4;
+		port = defaultPort;
+	}
+
+	public VideoSource(int ip1, int ip2, int ip3, int ip4, int port)
+	{
+		Name = defaultName;
+		this.ip1 = ip1;
+		this.ip2 = ip2;
+		this.ip3 = ip3;
+		this.ip4 = ip4;
+		this.port = port;
 	}
 
 	public VideoSource(string name, int ip1, int ip2, int ip3, int ip4, int port)
@@ -27,31 +49,9 @@ public class VideoSource
 		this.port = port;
 	}
 
-	public VideoSource(string name, string deviceName, int ip1, int ip2, int ip3, int ip4, int port, string videolink)
-	{
-		Name = name;
-		this.deviceName = deviceName;
-		this.ip1 = ip1;
-		this.ip2 = ip2;
-		this.ip3 = ip3;
-		this.ip4 = ip4;
-		this.port = port;
-		this.videolink = videolink;
-	}
-
-	public string GetDeviceName()
-	{
-		return deviceName;
-	}
-
-	public string GetIP()
-	{
-		return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
-	}
-
 	public string GetVideoURL()
 	{
-		return "http://" + ip1 + "." + ip2 + "." + ip3 + "." + ip4 + ":" + port + videolink;
+		return GetURLAndPort() + videolink;
 	}
 
 	public void SetIP(int first, int second, int third, int fourth)
